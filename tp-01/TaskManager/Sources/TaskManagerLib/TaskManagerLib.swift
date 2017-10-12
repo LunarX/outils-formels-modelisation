@@ -40,6 +40,7 @@ public func createCorrectTaskManager() -> PTNet {
     // la transition 'exec' a désormais la précondition 'limiter'
     // la transition 'success' a désormais la postcondition 'limiter'
     // la transition 'fail' a désormais la postcondition 'limiter'
+    // la transition 'create' a désormais la postcondition 'limiter'
     //
     // L'idée derrière ces changements est de faire en sorte que seule
     // une tâche puisse être executée à la fois. Pour executer on a besoin
