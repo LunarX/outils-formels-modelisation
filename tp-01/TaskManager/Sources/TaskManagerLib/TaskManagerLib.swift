@@ -56,7 +56,7 @@ public func createCorrectTaskManager() -> PTNet {
     let create      = PTTransition(
         named          : "create",
         preconditions  : [],
-        postconditions : [PTArc(place: taskPool)])
+        postconditions : [PTArc(place: taskPool), PTArc(place: limiter)])
     let spawn       = PTTransition(
         named          : "spawn",
         preconditions  : [],

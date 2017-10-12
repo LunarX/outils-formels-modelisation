@@ -69,7 +69,7 @@ let limiter2     = correctTaskManager.places.first { $0.name == "limiter" }!
 
 // Ici on peut voir la séquence qui menait au problème :
 
-let n1 = create2.fire(from: [taskPool2: 0, processPool2: 0, inProgress2: 0, limiter2: 1])
+let n1 = create2.fire(from: [taskPool2: 0, processPool2: 0, inProgress2: 0, limiter2: 0])
 let n2 = spawn2.fire(from: n1!)
 let n3 = spawn2.fire(from: n2!)
 let n4 = exec2.fire(from: n3!)
