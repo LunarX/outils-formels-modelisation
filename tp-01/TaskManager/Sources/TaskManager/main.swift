@@ -56,39 +56,36 @@ let correctTaskManager = createCorrectTaskManager()
 
 // On récupère les transitions et les places à partir du PTNet correctTaskManager
 
-let create2   = correctTaskManager.transitions.first { $0.name == "create" }!
-let spawn2   = correctTaskManager.transitions.first { $0.name == "spawn" }!
+let create2    = correctTaskManager.transitions.first { $0.name == "create" }!
+let spawn2     = correctTaskManager.transitions.first { $0.name == "spawn" }!
 let success2   = correctTaskManager.transitions.first { $0.name == "success" }!
-let exec2   = correctTaskManager.transitions.first { $0.name == "exec" }!
-let fail2   = correctTaskManager.transitions.first { $0.name == "fail" }!
+let exec2      = correctTaskManager.transitions.first { $0.name == "exec" }!
+let fail2      = correctTaskManager.transitions.first { $0.name == "fail" }!
 
 let taskPool2    = correctTaskManager.places.first { $0.name == "taskPool" }!
 let processPool2 = correctTaskManager.places.first { $0.name == "processPool" }!
 let inProgress2  = correctTaskManager.places.first { $0.name == "inProgress" }!
-
+let limiter2     = correctTaskManager.places.first { $0.name == "limiter" }!
 
 // Ici on peut voir la séquence qui menait au problème :
 
-let n1 = create2.fire(from: [taskPool2: 0, processPool2: 0, inProgress2: 0])
+let n1 = create2.fire(from: [taskPool2: 0, processPool2: 0, inProgress2: 0, limiter2: 1])
 let n2 = spawn2.fire(from: n1!)
-// Ce second spawn est anecdotique, si on le laisse tout fonctionnera bien.
-// Je l'enlève quand même pour se retrouver exactement comme dans m6.
-//let n3 = spawn2.fire(from: n2!)
-let n4 = exec2.fire(from: n2!)
+let n3 = spawn2.fire(from: n2!)
+let n4 = exec2.fire(from: n3!)
 
-// A partir de n4, nous n'avons plus le jeton qui se retrouvais dans
-// 'taskpool' et qui permetait de tirer m5. Nous n'avons donc plus besoin
-// de tirer n5. Et nous sommes dans la même configuration que dans m6
-// donc il n'est pas nécessaire de tirer un second 'exec2'.
+// Maintenant on ne peut plus tirer exec2, une seconde fois car le limiter
+// l'empêche comme on peut le voir:
 
-// On se retrouve maintenant dans la même configuration que dans m6.
-// Dans cette situation la tâche qui se trouve dans 'in progress' peut
-// soit servir à tirer 'success' soit servir à tirer 'fail'. On voit bien
-// que les deux solutions sont tirables.
+let execCanFire = exec2.isFireable(from: n4!)
+print("La situation est la suivante \(n4!)")
+print("'exec2' peut-il être tiré une seconde fois?: \(execCanFire) \n")
 
-print("L'état était bloqué ici: \(n4!)")
+let n6 = success2.fire(from: n4!)
 
-let canFireS2 = success2.isFireable(from: n4!)
-let canFireF2 = fail2.isFireable(from: n4!)
-print("Peut-on tirer la transition 'success'? : \(canFireS2)")
-print("Et peut-on tirer 'fail'? : \(canFireF2)")
+// En tirant n6 nous remettons un jeton dans limiter mais on ne peut plus
+// tirer 'exec2' avec la "fausse" tâche qui était présente dans le RdP incorrecte.
+
+print("La situation est la suivante \(n6!)")
+let execCanFire2 = exec2.isFireable(from: n6!)
+print("Peut-on tirer 'exec2'? : \(execCanFire2)")
