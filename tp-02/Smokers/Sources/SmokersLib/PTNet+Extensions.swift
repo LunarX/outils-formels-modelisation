@@ -105,6 +105,33 @@ public extension PTNet {
       return seen.count
     }
 
+    public func canSmokeSameTime(m0: MarkingGraph) -> Bool {
+      var seen = [m0]
+      var toVisit = [m0]
+
+      //print("Départ:\n   ", m0.marking)
+
+      while let current = toVisit.popLast() {
+        for (transition, successors) in current.successors {
+          // On regarde si le pointeur est le même
+          if !seen.contains(where: { $0 === successors }) {
+            seen.append(successors)
+            toVisit.append(successors)
+            //print(transition, ":", successors.marking)
+            let key1 = self.places.first(where: { $0.name == "s1" })!
+            let key2 = self.places.first(where: { $0.name == "s2" })!
+            let key3 = self.places.first(where: { $0.name == "s3" })!
+            let smo1 = successors.marking[key1] // Is smoking?
+            let smo2 = successors.marking[key2]
+            let smo3 = successors.marking[key3]
+            //print(transition, ":", ((smo1 && smo2) || (smo2 && smo3) || (smo3 && smo1)))
+            return true
+          }
+        }
+      }
+      return false
+    }
+
     // static func displayMarkingGraph(m: MarkingGraph) {
     //   print("Transitions:", m.transitions, "\nSuccessors:", m.successors)
     // }

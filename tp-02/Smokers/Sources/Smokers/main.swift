@@ -27,6 +27,8 @@ if let markingGraph = model.markingGraph(from: initialMarking) {
     // Write here the code necessary to answer questions of Exercise 4.
     print("On a", model.countNodes(markingGraph: markingGraph), "états différants dans notre réseau.")
     print("")
-    print("Affichage du réseau:")
-    model.displayGraph(m0: markingGraph)
+    //print("Affichage du réseau:")
+    //model.displayGraph(m0: markingGraph)
+
+    print("Peut-on avoir 2 fumeurs en même temps?:", model.canSmokeSameTime(m0: markingGraph))
 }
