@@ -26,9 +26,6 @@ let initialMarking: PTMarking = [r: 1, p: 0, t: 0, m: 0, w1: 1, s1: 0, w2: 1, s2
 if let markingGraph = model.markingGraph(from: initialMarking) {
     // Write here the code necessary to answer questions of Exercise 4.
     print("On a", model.countNodes(markingGraph: markingGraph), "états différants dans notre réseau.")
-    print("")
-    //print("Affichage du réseau:")
-    //model.displayGraph(m0: markingGraph)
-
     print("Peut-on avoir 2 fumeurs en même temps?:", model.canSmokeSameTime(m0: markingGraph))
+    print("Peut-on avoir au moins 2 fois le même ingrédient sur la table?:", model.moreThanOneComponent(m0: markingGraph))
 }
