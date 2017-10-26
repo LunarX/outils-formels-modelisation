@@ -12,32 +12,6 @@ public class MarkingGraph {
 
 }
 
-// public extension PTMarking {
-//   static func == (lhs: PTMarking, rhs: PTMarking) {
-//     var toReturn = false
-//
-//     if(lhs.count == rhs.count) {
-//       for(place, nbr) in lhs {
-//         for(place2, nbr2) in rhs {
-//           if(place == place2) {
-//             if(nbr == nbr2) {
-//               toReturn = true
-//               break
-//             }
-//             else {
-//               break
-//             }
-//           }
-//         }
-//         else {
-//
-//         }
-//       }
-//     }
-//
-//   }
-// }
-
 public extension PTNet {
 
     public func markingGraph(from mark: PTMarking) -> MarkingGraph? {
